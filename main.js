@@ -3,6 +3,7 @@ const randomM = Bridge.getScopeOf("random.js");
 const foodM = Bridge.getScopeOf("food.js");
 const weatherM = Bridge.getScopeOf("weather.js");
 const informationM = Bridge.getScopeOf("information.js");
+const coronaM = Bridge.getScopeOf("corona.js");
 
 var emo = ['(하트뿅)', '(하하)', '(우와)', '(심각)', '(힘듦)', '(흑흑)', '(아잉)', '(찡긋)', '(뿌듯)', '(깜짝)', '(빠직)', '(짜증)', '(제발)', '(씨익)', '(신나)', '(헉)', '(열받아)', '(흥)', '(감동)', '(뽀뽀)', '(멘붕)', '(정색)', '(쑥스)', '(꺄아)', '(좋아)', '(굿)', '(훌쩍)', '(허걱)', '(부르르)', '(최고)', '(브이)', '(오케이)', '(최악)'];
 var cmds = [];

@@ -6,7 +6,7 @@ function getWeather(q) {
     let mise, miseC, where, msg, temp, sendMsg, data, dot, rain, emo;
 
     try {
-        data = Jsonp.connect(url).get();
+        data = Jsoup.connect(url).get();
         if(data == "" || data == null) return sendMsg = "데이터를 받아오는데 실패하였습니다.";
         where = data.select('.api_title').text().split(' 날씨')[0];
         mise = data.select('dd.lv2 > span.num').toArray()[0].text();
@@ -26,7 +26,7 @@ function getWeather(q) {
 
     let random = Math.floor(Math.random() * emo.length);
     sendMsg = "*" + where + "*" + "\n-----------------------" + "\n미세먼지 : " + mise + fmise(mise.split('㎍')[0]) + "\n초미세먼지 : " + miseC + fmiseCho(miseC.split('㎍')[0]) +
-        "\n-----------------------" + "\n기온 : " + temp + "℃\n" + "습도 : " + dot + "\n강수확률:  " + rain + "%" + "\n> " + msg + emo[random];
+        "\n-----------------------" + "\n기온 : " + temp + "℃\n" + "습도 : " + dot + "\n강수확률:  " + rain  + "\n> " + msg + emo[random];
     return sendMsg;
 
 }
@@ -53,52 +53,3 @@ function fmiseCho(v) {
     else if (v >= 76) return " (최악)";
     else return " (데이터없음)";
 }
-
-
-
-
-function getMise(sn, cn) {
-
-    let api_key = 'A6Ml%2B4I%2FerrdVQxJZC5DN5%2B1l9J0J8j3Y1qtFykohFy55DHaOrtPinMPbmUzH%2FrKE9jQwhBc6X1YKgtEJpRajg%3D%3D';
-    let urlM = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnMesureSidoLIst?'
-        + 'ServiceKey=' + api_key + '&sidoName=' + encodeURI(sn) + '&searchCondition=HOUR&numOfRows=35';
-    let data = Utils.getWebText(urlM);
-    data = data.replace(/\s/g, "");
-    let allData = [];
-    let tempMsg;
-    let leng = parseInt(data.match(/<totalCount>.*?[\d]{2}/g)[0].split('>')[1]);
-
-    if (data == null) {
-        tempMsg = "데이터를 받아올 수 없습니다.\n";
-        return tempMsg;
-    }
-
-    if (leng == null) {
-        tempMsg = "데이터를 받아올 수 없습니다. \n명령어를 잘못 입력하셨거나 서버오류입니다.\n";
-        return tempMsg;
-    }
-
-
-    // 데이터 파싱해서 저장
-    for (let i = 0; i < leng; i++) {
-        allData.push({
-            dataTime: data.match(/<dataTime>.*?<\/dataTime>/g)[i].split(">")[1].split("<")[0],
-            cityName: data.match(/<cityName>.*?<\/cityName>/g)[i].split(">")[1].split("<")[0],
-            pm10Value: data.match(/<pm10Value>.*?<\/pm10Value>/g)[i].split(">")[1].split("<")[0],
-            pm25Value: data.match(/<pm25Value>.*?<\/pm25Value>/g)[i].split(">")[1].split("<")[0]
-        });
-        //alert(allData[i].dataTime+"\n"+allData[i].cityName+"\n"+allData[i].pm10Value+mise(allData[i].pm10Value)+"\n"+allData[i].pm25Value+miseCho(allData[i].pm25Value)+"\n");
-    }
-
-    for (let i = 0; i < leng; i++) {
-        if (cn == allData[i].cityName) {
-            tempMsg = "***미세먼지***\n" + "[" + allData[i].dataTime.substring(10, 16) + "] " + sn + " " + allData[i].cityName +
-                "\n미세먼지 : " + allData[i].pm10Value + mise(allData[i].pm10Value) +
-                "\n초미세먼지 : " + allData[i].pm10Value + mise(allData[i].pm10Value) +
-                "\n[한국환경공단]" +
-                "\n-----------";
-            return tempMsg;
-        }
-    }
-}
-
