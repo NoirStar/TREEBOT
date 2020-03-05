@@ -1,20 +1,18 @@
-const Jsoup = org.jsoup.Jsoup;
-
 function getWeather(q) {
 
-    let url = 'https://search.naver.com/search.naver?query=' + encodeURI(q) + encodeURI(' 날씨');
-    let mise, miseC, where, msg, temp, sendMsg, data, dot, rain, emo;
+    var url = 'https://search.naver.com/search.naver?query=' + encodeURI(q) + encodeURI(' 날씨');
+    var mise, miseC, where, msg, temp, sendMsg, data, dot, rain, emo;
 
     try {
-        data = Jsonp.connect(url).get();
+        data = Utils.getWebText(url);
         if(data == "" || data == null) return sendMsg = "데이터를 받아오는데 실패하였습니다.";
-        where = data.select('.api_title').text().split(' 날씨')[0];
-        mise = data.select('dd.lv2 > span.num').toArray()[0].text();
-        miseC = data.select('dd.lv2 > span.num').toArray()[1].text();
-        msg = data.select('.cast_txt').toArray()[0].text();
-        temp = data.select('.todaytemp').toArray()[0].text();
-        dot = data.select('.info_list.humidity._tabContent > ul > li > dl > dd.weather_item').toArray()[0].text();
-        rain = data.select('.info_list.rainfall._tabContent > ul > li > dl > dd.weather_item').toArray()[0].text();
+        where = /<h3 class=\"api_title\">.+?<\/h3>/.exec(data)[0].split('>')[1].split('<')[0].split(' 날씨')[0];
+        mise = data.match(/(\d|null)+㎍\/㎥/g)[0];
+        miseC = data.match(/(\d|null)+㎍\/㎥/g)[1];
+        msg = /cast_txt\">.+?<\/p>/.exec(data)[0].split('>')[1].split('<')[0];
+        temp = /todaytemp\">.+?<\/span>/.exec(data)[0].split('>')[1].split('<')[0];
+        dot = /ico_humidity\".+?<\/span>/.exec(data)[0].split('height:')[1].split('\"')[0];
+        rain = data.split('on now merge1')[1].split('</span>')[0].split('<span>')[1];
         emo = ['(하트뿅)', '(하하)', '(우와)', '(심각)', '(힘듦)', '(흑흑)', '(아잉)', '(찡긋)', '(뿌듯)', '(깜짝)', '(빠직)', '(짜증)', '(제발)', '(씨익)', '(신나)', '(헉)', '(열받아)', '(흥)', '(감동)', '(뽀뽀)', '(멘붕)', '(정색)', '(쑥스)', '(꺄아)', '(좋아)', '(굿)', '(훌쩍)', '(허걱)', '(부르르)', '(최고)', '(브이)', '(오케이)', '(최악)'];
     } catch (e) {
         sendMsg = "Error : " + e + "\n\n오류가 있습니다.\n다른검색어로 검색해보세요.";
@@ -24,7 +22,7 @@ function getWeather(q) {
     if (mise.split('㎍')[0] == 'null') mise = "-";
     if (miseC.split('㎍')[0] == 'null') miseC = "-";
 
-    let random = Math.floor(Math.random() * emo.length);
+    var random = Math.floor(Math.random() * emo.length);
     sendMsg = "*" + where + "*" + "\n-----------------------" + "\n미세먼지 : " + mise + fmise(mise.split('㎍')[0]) + "\n초미세먼지 : " + miseC + fmiseCho(miseC.split('㎍')[0]) +
         "\n-----------------------" + "\n기온 : " + temp + "℃\n" + "습도 : " + dot + "\n강수확률:  " + rain + "%" + "\n> " + msg + emo[random];
     return sendMsg;
@@ -59,14 +57,14 @@ function fmiseCho(v) {
 
 function getMise(sn, cn) {
 
-    let api_key = 'A6Ml%2B4I%2FerrdVQxJZC5DN5%2B1l9J0J8j3Y1qtFykohFy55DHaOrtPinMPbmUzH%2FrKE9jQwhBc6X1YKgtEJpRajg%3D%3D';
-    let urlM = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnMesureSidoLIst?'
+    var api_key = 'A6Ml%2B4I%2FerrdVQxJZC5DN5%2B1l9J0J8j3Y1qtFykohFy55DHaOrtPinMPbmUzH%2FrKE9jQwhBc6X1YKgtEJpRajg%3D%3D';
+    var urlM = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnMesureSidoLIst?'
         + 'ServiceKey=' + api_key + '&sidoName=' + encodeURI(sn) + '&searchCondition=HOUR&numOfRows=35';
-    let data = Utils.getWebText(urlM);
+    var data = Utils.getWebText(urlM);
     data = data.replace(/\s/g, "");
-    let allData = [];
-    let tempMsg;
-    let leng = parseInt(data.match(/<totalCount>.*?[\d]{2}/g)[0].split('>')[1]);
+    var allData = [];
+    var tempMsg;
+    var leng = parseInt(data.match(/<totalCount>.*?[\d]{2}/g)[0].split('>')[1]);
 
     if (data == null) {
         tempMsg = "데이터를 받아올 수 없습니다.\n";
@@ -80,7 +78,7 @@ function getMise(sn, cn) {
 
 
     // 데이터 파싱해서 저장
-    for (let i = 0; i < leng; i++) {
+    for (var i = 0; i < leng; i++) {
         allData.push({
             dataTime: data.match(/<dataTime>.*?<\/dataTime>/g)[i].split(">")[1].split("<")[0],
             cityName: data.match(/<cityName>.*?<\/cityName>/g)[i].split(">")[1].split("<")[0],
@@ -90,7 +88,7 @@ function getMise(sn, cn) {
         //alert(allData[i].dataTime+"\n"+allData[i].cityName+"\n"+allData[i].pm10Value+mise(allData[i].pm10Value)+"\n"+allData[i].pm25Value+miseCho(allData[i].pm25Value)+"\n");
     }
 
-    for (let i = 0; i < leng; i++) {
+    for (var i = 0; i < leng; i++) {
         if (cn == allData[i].cityName) {
             tempMsg = "***미세먼지***\n" + "[" + allData[i].dataTime.substring(10, 16) + "] " + sn + " " + allData[i].cityName +
                 "\n미세먼지 : " + allData[i].pm10Value + mise(allData[i].pm10Value) +
