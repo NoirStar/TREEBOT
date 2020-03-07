@@ -1,0 +1,4 @@
+cd storage/emulated/legacy/katalkbot/Bots
+
+
+adb push main.js storage/emulated/legacy/katalkbot/Bots/test/index.js
