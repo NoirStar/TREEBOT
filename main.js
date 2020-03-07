@@ -13,6 +13,7 @@ let allWord = "";
 let reNamu = /^\.나무 [\w\W]+/i
 let rePapago = /^(\.한영|\.영한|\.한일)\s+[\w\W\s]+/i
 let reMise = /(\.미세\s)[ㄱ-힣]+/
+let reCorona = /(\.코로나\s)[ㄱ-힣]+/
 let reTest = /^(\.테스트\s)[ㄱ-힣]{2,10}/
 
 //함수//
@@ -53,7 +54,7 @@ allWord = allWord.slice(0, -2);
 
 
 //cmd 추가
-AddCMD(".명령어", "***트리봇***\n.명령어 => 명령어리스트\n.단어 => 반응하는말\n.나무위키 => 나무위키 검색\n.번역 => 파파고 번역기\n.미세먼지 => 미세먼지 정보\n.뭐먹 => 메뉴추천\n.뽑기 => 운 테스트\n.정보 => 유용한정보\n.직구 => 직구핫딜\n.자스 => 자바스크립트 실행\nVer. 20190808 / NS");
+AddCMD(".명령어", "***트리봇***\n.명령어 => 명령어리스트\n.단어 => 반응하는말\n.나무위키 => 나무위키 검색\n.번역 => 파파고 번역기\n.미세먼지 => 미세먼지 정보\n.코로나 => 코로나정보\n.뭐먹 => 메뉴추천\n.뽑기 => 운 테스트\n.정보 => 유용한정보\n.직구 => 직구핫딜\n.자스 => 자바스크립트 실행\nVer. 20200307 / NS");
 AddCMD(".단어", "***반응하는 단어***\n" + allWord);//2
 AddCMD(".번역", ".한영 [검색어]\n.영한 [검색어]\n.한일 [검색어]");//3
 AddCMD(".네이버검색", ".네이버 [검색어]");//4
@@ -110,9 +111,14 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
     //미세먼지
     if (reMise.exec(msg)) {
-
         let query = msg.split('.미세')[1];
-        replier.reply(weatherM.getWeather(query));
+        replier.reply(weatherM.getWeather(query,Jsoup));
+        return;
+    }
+
+    //코로나
+    if (msg == '.코로나') {
+        replier.reply(coronaM.getCorona(Jsoup));
         return;
     }
 
@@ -129,10 +135,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
     //테스트
     if (msg == ".테") {
-        let url = "https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=%EC%83%81%ED%98%84%EB%8F%99+%EB%82%A0%EC%94%A8";
-        data = Jsoup.connect(url).get();
-        replier.reply(data.substring(1,200000));
-        return;
+        let a = '테스트';
     }
     if (msg == ".테2") {
         replier.reply(randomM.test2());
@@ -184,5 +187,7 @@ function runScript(str) {
     }
 
 }
+
+
 
 

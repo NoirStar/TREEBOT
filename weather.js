@@ -1,16 +1,14 @@
-const Jsoup = org.jsoup.Jsoup;
 
-function getWeather(q) {
+function getWeather(q, Jsoup) {
 
     let url = 'https://search.naver.com/search.naver?query=' + encodeURI(q) + encodeURI(' 날씨');
     let mise, miseC, where, msg, temp, sendMsg, data, dot, rain, emo;
 
     try {
         data = Jsoup.connect(url).get();
-        if(data == "" || data == null) return sendMsg = "데이터를 받아오는데 실패하였습니다.";
         where = data.select('.api_title').text().split(' 날씨')[0];
-        mise = data.select('dd.lv2 > span.num').toArray()[0].text();
-        miseC = data.select('dd.lv2 > span.num').toArray()[1].text();
+        mise = data.select('dl.indicator > dd').toArray()[0].text().split('㎍/㎥')[0] + '㎍/㎥';
+        miseC = data.select('dl.indicator > dd').toArray()[1].text().split('㎍/㎥')[0] + '㎍/㎥';
         msg = data.select('.cast_txt').toArray()[0].text();
         temp = data.select('.todaytemp').toArray()[0].text();
         dot = data.select('.info_list.humidity._tabContent > ul > li > dl > dd.weather_item').toArray()[0].text();
