@@ -24,8 +24,7 @@ function getLotto() {
             flag = false;
         } else {
             lottoNum.push(num);
-        }
-        
+        }  
     }
-    return lottoNum.sort();
+    return lottoNum.sort((a,b) => {return a-b});
 }
