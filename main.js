@@ -125,6 +125,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
     //로또
     if (msg == '.로또') {
+        replier.reply("**** 행운번호 ****");
         replier.reply(lottoM.getLotto());
         return;
     }
