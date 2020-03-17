@@ -4,6 +4,7 @@ const foodM = Bridge.getScopeOf("food.js");
 const weatherM = Bridge.getScopeOf("weather.js");
 const informationM = Bridge.getScopeOf("information.js");
 const coronaM = Bridge.getScopeOf("corona.js");
+const lottoM = Bridge.getScopeOf("lotto.js");
 const Jsoup = org.jsoup.Jsoup;
 
 let emo = ['(하트뿅)', '(하하)', '(우와)', '(심각)', '(힘듦)', '(흑흑)', '(아잉)', '(찡긋)', '(뿌듯)', '(깜짝)', '(빠직)', '(짜증)', '(제발)', '(씨익)', '(신나)', '(헉)', '(열받아)', '(흥)', '(감동)', '(뽀뽀)', '(멘붕)', '(정색)', '(쑥스)', '(꺄아)', '(좋아)', '(굿)', '(훌쩍)', '(허걱)', '(부르르)', '(최고)', '(브이)', '(오케이)', '(최악)'];
@@ -54,7 +55,7 @@ allWord = allWord.slice(0, -2);
 
 
 //cmd 추가
-AddCMD(".명령어", "***트리봇***\n.명령어 => 명령어리스트\n.단어 => 반응하는말\n.나무위키 => 나무위키 검색\n.번역 => 파파고 번역기\n.미세먼지 => 미세먼지 정보\n.코로나 => 코로나정보\n.뭐먹 => 메뉴추천\n.뽑기 => 운 테스트\n.정보 => 유용한정보\n.직구 => 직구핫딜\n.자스 => 자바스크립트 실행\nVer. 20200307 / NS");
+AddCMD(".명령어", "***트리봇***\n.명령어 => 명령어리스트\n.단어 => 반응하는말\n.나무위키 => 나무위키 검색\n.번역 => 파파고 번역기\n.미세먼지 => 미세먼지 정보\n.코로나 => 코로나정보\n.로또 => 로또 번호생성\n.뭐먹 => 메뉴추천\n.뽑기 => 운 테스트\n.정보 => 유용한정보\n.직구 => 직구핫딜\n.자스 => 자바스크립트 실행\nVer. 20200307 / NS");
 AddCMD(".단어", "***반응하는 단어***\n" + allWord);//2
 AddCMD(".번역", ".한영 [검색어]\n.영한 [검색어]\n.한일 [검색어]");//3
 AddCMD(".네이버검색", ".네이버 [검색어]");//4
@@ -119,6 +120,12 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     //코로나
     if (msg == '.코로나') {
         replier.reply(coronaM.getCorona(Jsoup));
+        return;
+    }
+
+    //로또
+    if (msg == '.로또') {
+        replier.reply(lottoM.getLotto());
         return;
     }
 
