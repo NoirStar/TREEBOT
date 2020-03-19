@@ -1,10 +1,19 @@
+
+
+function random(min, max) {
+	let seed = new Date().getTime();
+	let x = Math.sin(seed) * 10000;
+	return Math.round((x - Math.floor(x)) * (max-min) + min);
+}
+
+
 function getItem() {
 
     var msg;
-    var rand = Math.floor(Math.random() * 100000);
+    var rand = random(1,100000);
     if (rand >= 81000 && rand <= 81004) msg = "***뽑기 결과 확인***\n[에픽] 축하드립니다!!! \n운을 여기다 버리셨습니다.\n\n\
 ⊂_ヽ\n\
-　 ＼＼ Λ＿Λ \n\
+　 ＼＼  Λ＿Λ \n\
 　　 ＼( ‘ㅅ' ) 두둠칫\n\
 　　　 >　⌒ヽ\n\
 　　　/ 　 へ＼\n\
@@ -30,7 +39,7 @@ function getItem() {
 +ヽ＿)_／\n";
     else if (rand >= 82000 && rand <= 82499) msg = "***뽑기 결과 확인***\n[유니크] 와우! 대박이네요.\n\n\
     ∧,_,∧\n\
-　　(`･ω･´)　ｎ__\n\
+　　(`･ω･´ )　ｎ__\n\
 　η ＞　 ⌒＼/ ､_∃\n\
 (∃)/ ∧　　＼_/\n\
  ＼_/　＼　　丶 씰룩씰룩\n\
@@ -41,7 +50,7 @@ function getItem() {
 　　 　(＿(＿＿) \n";
     else if (rand >= 333 && rand <= 3332) msg = "[레어] 운이 꽤 좋으시네요.\n\n\
   ∧,_,∧\n\
- （｡･ω･｡)つ━☆・*。\n\
+ （ ｡･ω･｡)つ━☆・*。\n\
  ⊂　   ノ 　　・゜+.\n\
    しーＪ           °。+ *´¨"
     else if (rand >= 3333 && rand <= 13332) msg = "[매직] 운이 좋으시네요.";
