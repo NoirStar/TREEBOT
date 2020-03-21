@@ -1,3 +1,10 @@
+function random(min, max) {
+	let seed = new Date().getTime();
+	let x = Math.sin(seed) * 10000;
+	return Math.round((x - Math.floor(x)) * (max-min) + min);
+}
+
+
 exports.test = 
 {
     "link_ver": "4.0",
@@ -60,10 +67,12 @@ function imageTemplete(title, image_url) {
     };
 }
 
-exports.searchImage = (Jsoup,query,random) => {
-    let res,img,src
-    res = Jsoup.connect('https://www.bing.com/images/search?q=' + encodeURI(query)).get();
-    img = res.select('img.mimg').toArray();
-    src = img[random].attr("src");
+exports.searchImage = (Jsoup,query) => {
+    let res,img,src,random
+    res = Jsoup.connect('https://search.naver.com/search.naver?where=image&sm=tab_jum&query=' + encodeURI(query)).get();
+    img = res.select('span._meta').toArray();
+    random = random(0,img.length - 1)
+    src = img[random].text().split('originalUrl":"')[1].split('",')[0];
     return imageTemplete(query,src);
 }
+
