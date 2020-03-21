@@ -63,7 +63,7 @@ AddCMD(".뽑기", "명령어 => .ㅂ\n***확률***\n꽝(36%)\n노말(50%)\n매�
 
 function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName, threadId) {
 
-    room = room.replace(',',', ');
+    room = room.replace(/,/g,', ');
     //코드실행 
     if (/^(\.자스 )/.exec(msg)) {
         replier.reply(runScript(msg.split(".자스")[1]));
