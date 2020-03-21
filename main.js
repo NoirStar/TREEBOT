@@ -10,8 +10,12 @@ const env = require('env.js');
 const kaling = require('kaling.js').Kakao();
 const Kakao = new kaling;
 
-Kakao.init(env.ACCOUNT_INFO.apiKey);
-Kakao.login(env.ACCOUNT_INFO.id,env.ACCOUNT_INFO.pw);
+try{
+    Kakao.init(env.ACCOUNT_INFO.apiKey);
+    Kakao.login(env.ACCOUNT_INFO.id,env.ACCOUNT_INFO.pw);
+}catch(e){
+    replier.reply(e);
+}
 
 
 let emo = ['(하트뿅)', '(하하)', '(우와)', '(심각)', '(힘듦)', '(흑흑)', '(아잉)', '(찡긋)', '(뿌듯)', '(깜짝)', '(빠직)', '(짜증)', '(제발)', '(씨익)', '(신나)', '(헉)', '(열받아)', '(흥)', '(감동)', '(뽀뽀)', '(멘붕)', '(정색)', '(쑥스)', '(꺄아)', '(좋아)', '(굿)', '(훌쩍)', '(허걱)', '(부르르)', '(최고)', '(브이)', '(오케이)', '(최악)'];
@@ -59,6 +63,7 @@ AddCMD(".뽑기", "명령어 => .ㅂ\n***확률***\n꽝(36%)\n노말(50%)\n매�
 
 function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName, threadId) {
 
+    room = room.replace(',',', ');
     //코드실행 
     if (/^(\.자스 )/.exec(msg)) {
         replier.reply(runScript(msg.split(".자스")[1]));
