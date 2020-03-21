@@ -136,8 +136,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     //이미지 검색
     if (reImage.exec(msg)) {
         var query = msg.split('.이미지')[1];
+        var random = lottoM.random(0,5);
         try{
-            Kakao.send(room,kalink.searchImage(Jsoup,query));
+            Kakao.send(room,kalink.searchImage(Jsoup,query,random));
         }catch(e) {
             replier.reply(e);
         }    

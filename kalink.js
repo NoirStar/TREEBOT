@@ -39,22 +39,27 @@ function imageTemplete(title, image_url) {
             "object_type": "feed",
             "button_title": "",
             "content": {
-                "title": title,
+                "title": "",
                 "image_url": image_url,
                 "link":
                 {
                     "web_url": "noirstar.github.io",
                     "mobile_web_url": "noirstar.github.io"
                 }
-            }
+            },
+            "buttons": [
+                {
+                    "title": ""
+                }
+            ]
         }
     };
 }
 
-exports.searchImage = (Jsoup,query) => {
+exports.searchImage = (Jsoup,query,random) => {
     let res,img,src
     res = Jsoup.connect('https://www.bing.com/images/search?q=' + query).get();
-    img = res.select('img.mimg').first();
-    src = img.attr("src");
+    img = res.select('img.mimg').toArray();
+    src = img[random].attr("src");
     return imageTemplete(query,src);
 }
