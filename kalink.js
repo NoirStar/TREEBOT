@@ -39,7 +39,7 @@ function imageTemplete(title, image_url) {
             "object_type": "feed",
             "button_title": "",
             "content": {
-                "title": "",
+                "title": title + " 검색결과",
                 "image_url": image_url,
                 "link":
                 {
