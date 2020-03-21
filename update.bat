@@ -9,3 +9,4 @@ adb push lotto.js storage/emulated/legacy/katalkbot/Bots/lotto/index.js
 adb push env.js storage/emulated/legacy/katalkbot/global_modules/env.js
 adb push kaling.js storage/emulated/legacy/katalkbot/global_modules/kaling.js
 adb push crypto.js storage/emulated/legacy/katalkbot/global_modules/crypto.js
+adb push kalink.js storage/emulated/legacy/katalkbot/global_modules/kalink.js

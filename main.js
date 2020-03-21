@@ -7,6 +7,7 @@ const coronaM = Bridge.getScopeOf("corona.js");
 const lottoM = Bridge.getScopeOf("lotto.js");
 const Jsoup = org.jsoup.Jsoup;
 const env = require('env.js');
+const kalink = require('kalink.js');
 const kaling = require('kaling.js').Kakao();
 const Kakao = new kaling;
 
@@ -137,38 +138,7 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     //테스트
     if (msg == ".테") {
         try{
-            Kakao.send(room,
-                {
-                    "link_ver": "4.0",
-                    "template_object":
-                    {
-                        "object_type": "feed",
-                        "button_title": "버튼",
-    
-                        "content": {
-                            "title": "제목",
-                            "image_url": "http://k.kakaocdn.net/dn/dEwroC/btqgdYG36hU/1zQbPe8ZLpGGmoMkrf0iX0/kakaolink40_original.png",
-                            "link":
-                            {
-                                "web_url": "naver.com",
-                                "mobile_web_url": "naver.com"
-                            },
-                            "description": "설명"
-                        },
-    
-                        "buttons": [
-                            {
-                                "title": "버튼",
-                                "link":
-                                {
-                                    "web_url": "noirstar.tistory.com",
-                                    "mobile_web_url": "noirstar.tistory.com"
-                                }
-                            }
-                        ]
-    
-                    }
-                });
+            Kakao.send(room,kalink.test);
         }catch(e) {
             replier.reply(e);
         }    
