@@ -140,8 +140,9 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
         let res,img,src
         res = Jsoup.connect('https://www.bing.com/images/search?q=%EA%BD%83').get();
-        img = res.select('img').first();
-        src = img.attr("src");   
+        img = res.select('img.mimg').first();
+        src = img.attr("src");
+        
         try{
             Kakao.send(room,kalink.imageTemplete('꽃',src));
         }catch(e) {
