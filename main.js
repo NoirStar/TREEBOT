@@ -6,6 +6,13 @@ const informationM = Bridge.getScopeOf("information.js");
 const coronaM = Bridge.getScopeOf("corona.js");
 const lottoM = Bridge.getScopeOf("lotto.js");
 const Jsoup = org.jsoup.Jsoup;
+const env = require('env.js');
+const kaling = require('kaling.js').Kakao();
+const Kakao = new kaling;
+
+Kakao.init(env.ACCOUNT_INFO.apiKey);
+Kakao.login(env.ACCOUNT_INFO.id,env.ACCOUNT_INFO.pw);
+
 
 let emo = ['(하트뿅)', '(하하)', '(우와)', '(심각)', '(힘듦)', '(흑흑)', '(아잉)', '(찡긋)', '(뿌듯)', '(깜짝)', '(빠직)', '(짜증)', '(제발)', '(씨익)', '(신나)', '(헉)', '(열받아)', '(흥)', '(감동)', '(뽀뽀)', '(멘붕)', '(정색)', '(쑥스)', '(꺄아)', '(좋아)', '(굿)', '(훌쩍)', '(허걱)', '(부르르)', '(최고)', '(브이)', '(오케이)', '(최악)'];
 let cmds = [];
@@ -26,26 +33,6 @@ function AddMSG(request, response) {
     msgs.push({ req: request, res: response })
 }
 
-//나무위키 검색함수
-function namu(str) {
-    let url = 'https://namu.wiki/w/' + encodeURI(str);
-    let result;
-    try {
-        let html = Utils.getWebText(url);
-        contents = html.split('div class="wiki-heading-content">')[1].split('<h2 class="wiki-heading"')[0].replace(/(<([^>]+)>)/g, "").replace(/\s{2,}/g, "").replace(/\n/g, "").trim().substring(0, 300) + "...";
-        result = str + "에 대한 결과입니다.\n" + contents + "\n\n자세한내용은 " + "https://namu.wiki/w/" + encodeURI(str) + " 을 참고해주세요";
-        return result;
-
-    } catch (e) {
-        result = "나무위키에서 " + str + "을(를) 찾을 수 없거나 오류가 있습니다.";
-        return result;
-    }
-}
-
-//msg 추가
-AddMSG("안녕", "안녕?");
-AddMSG("잘가", "응 잘가");
-AddMSG("ㅋㅋ", "ㅋㅋㅋㅋㅋ");
 
 //모든메세지
 for (let i in msgs) {
@@ -53,6 +40,10 @@ for (let i in msgs) {
 }
 allWord = allWord.slice(0, -2);
 
+//msg 추가
+AddMSG("안녕", "안녕?");
+AddMSG("잘가", "응 잘가");
+AddMSG("ㅋㅋ", "ㅋㅋㅋㅋㅋ");
 
 //cmd 추가
 AddCMD(".명령어", "***트리봇***\n.명령어 => 명령어리스트\n.단어 => 반응하는말\n.나무위키 => 나무위키 검색\n.번역 => 파파고 번역기\n.미세먼지 => 미세먼지 정보\n.코로나 => 코로나정보\n.로또 => 로또 번호생성\n.뭐먹 => 메뉴추천\n.뽑기 => 운 테스트\n.정보 => 유용한정보\n.직구 => 직구핫딜\n.자스 => 자바스크립트 실행\nVer. 20200307 / NS");
@@ -60,11 +51,9 @@ AddCMD(".단어", "***반응하는 단어***\n" + allWord);//2
 AddCMD(".번역", ".한영 [검색어]\n.영한 [검색어]\n.한일 [검색어]");//3
 AddCMD(".네이버검색", ".네이버 [검색어]");//4
 AddCMD(".나무위키", ".나무 [검색어]");//5
-//AddCMD(".날씨",".날씨 [지역]");//6
 AddCMD(".단어추가", ".말 [입력] [출력]")//7
 AddCMD(".미세먼지", ".미세 [검색어]\n\nex) .미세 수영구");
 AddCMD(".뽑기", "명령어 => .ㅂ\n***확률***\n꽝(36%)\n노말(50%)\n매직(10%)\n레어(3%)\n유니크(0.3%)\n레전더리(0.03%)\n에픽(0.003%)");
-
 
 
 
@@ -142,7 +131,38 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
     //테스트
     if (msg == ".테") {
-        let a = '테스트';
+        Kakao.send(room,
+            {
+                "link_ver": "4.0",
+                "template_object":
+                {
+                    "object_type": "feed",
+                    "button_title": "버튼",
+
+                    "content": {
+                        "title": "제목",
+                        "image_url": "http://k.kakaocdn.net/dn/dEwroC/btqgdYG36hU/1zQbPe8ZLpGGmoMkrf0iX0/kakaolink40_original.png",
+                        "link":
+                        {
+                            "web_url": "naver.com",
+                            "mobile_web_url": "naver.com"
+                        },
+                        "description": "설명"
+                    },
+
+                    "buttons": [
+                        {
+                            "title": "버튼",
+                            "link":
+                            {
+                                "web_url": "noirstar.tistory.com",
+                                "mobile_web_url": "noirstar.tistory.com"
+                            }
+                        }
+                    ]
+
+                }
+            });
     }
     if (msg == ".테2") {
         replier.reply(randomM.test2());
@@ -180,8 +200,8 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         if (msg == msgs[i].req) replier.reply(msgs[i].res);
     }
 
-
 }
+
 function runScript(str) {
     try {
         let result;
@@ -195,6 +215,21 @@ function runScript(str) {
 
 }
 
+//나무위키 검색함수
+function namu(str) {
+    let url = 'https://namu.wiki/w/' + encodeURI(str);
+    let result;
+    try {
+        let html = Utils.getWebText(url);
+        contents = html.split('div class="wiki-heading-content">')[1].split('<h2 class="wiki-heading"')[0].replace(/(<([^>]+)>)/g, "").replace(/\s{2,}/g, "").replace(/\n/g, "").trim().substring(0, 300) + "...";
+        result = str + "에 대한 결과입니다.\n" + contents + "\n\n자세한내용은 " + "https://namu.wiki/w/" + encodeURI(str) + " 을 참고해주세요";
+        return result;
+
+    } catch (e) {
+        result = "나무위키에서 " + str + "을(를) 찾을 수 없거나 오류가 있습니다.";
+        return result;
+    }
+}
 
 
 
