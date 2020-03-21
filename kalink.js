@@ -62,7 +62,7 @@ function imageTemplete(title, image_url) {
 
 exports.searchImage = (Jsoup,query,random) => {
     let res,img,src
-    res = Jsoup.connect('https://www.bing.com/images/search?q=' + query).get();
+    res = Jsoup.connect('https://www.bing.com/images/search?q=' + encodeURI(query)).get();
     img = res.select('img.mimg').toArray();
     src = img[random].attr("src");
     return imageTemplete(query,src);
