@@ -73,6 +73,6 @@ exports.searchImage = (Jsoup,query) => {
     img = res.select('span._meta').toArray();
     random = random(0,img.length - 1)
     src = img[random].text().split('originalUrl":"')[1].split('",')[0];
-    return imageTemplete(query,src);
+    return imageTemplete(query,decodeURI(src));
 }
 
