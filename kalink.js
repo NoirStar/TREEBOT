@@ -49,7 +49,11 @@ function imageTemplete(title, image_url) {
             },
             "buttons": [
                 {
-                    "title": ""
+                    "title": "",
+                    "link": {
+                        "web_url": "noirstar.tistory.com",
+                        "mobile_web_url": "noirstar.tistory.com"
+                    }
                 }
             ]
         }
