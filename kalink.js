@@ -11,7 +11,7 @@ exports.test =
             "image_url": "http://k.kakaocdn.net/dn/dEwroC/btqgdYG36hU/1zQbPe8ZLpGGmoMkrf0iX0/kakaolink40_original.png",
             "link":
             {
-                "web_url": "naver.com",
+                "web_url": "noirstar.github.io",
                 "mobile_web_url": "naver.com"
             },
             "description": "설명"
@@ -30,3 +30,23 @@ exports.test =
 
     }
 };
+
+exports.imageTemplete = (title, image_url) => {    
+    return {
+        "link_ver": "4.0",
+        "template_object":
+        {
+            "object_type": "feed",
+            "content": {
+                "title": title,
+                "image_url": image_url,
+                "link":
+                {
+                    "web_url": "noirstar.github.io",
+                    "mobile_web_url": "noirstar.github.io"
+                },
+            },
+        }
+    };
+}
+

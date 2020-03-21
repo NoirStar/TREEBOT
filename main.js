@@ -137,8 +137,13 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
     //테스트
     if (msg == ".테") {
+
+        let res,img,src
+        res = Jsoup.connect('https://www.bing.com/images/search?q=%EA%BD%83').get();
+        img = res.select('img').first();
+        src = img.attr("src");   
         try{
-            Kakao.send(room,kalink.test);
+            Kakao.send(room,kalink.imageTemplete('꽃',src));
         }catch(e) {
             replier.reply(e);
         }    
