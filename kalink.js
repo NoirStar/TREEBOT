@@ -31,12 +31,13 @@ exports.test =
     }
 };
 
-exports.imageTemplete = (title, image_url) => {    
+function imageTemplete(title, image_url) {    
     return {
         "link_ver": "4.0",
         "template_object":
         {
             "object_type": "feed",
+            "button_title": "",
             "content": {
                 "title": title,
                 "image_url": image_url,
@@ -44,9 +45,16 @@ exports.imageTemplete = (title, image_url) => {
                 {
                     "web_url": "noirstar.github.io",
                     "mobile_web_url": "noirstar.github.io"
-                },
-            },
+                }
+            }
         }
     };
 }
 
+exports.searchImage = (Jsoup,query) => {
+    let res,img,src
+    res = Jsoup.connect('https://www.bing.com/images/search?q=' + query).get();
+    img = res.select('img.mimg').first();
+    src = img.attr("src");
+    return imageTemplete(query,src);
+}

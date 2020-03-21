@@ -26,8 +26,8 @@ let allWord = "";
 let reNamu = /^\.나무 [\w\W]+/i
 let rePapago = /^(\.한영|\.영한|\.한일)\s+[\w\W\s]+/i
 let reMise = /(\.미세\s)[ㄱ-힣]+/
-let reCorona = /(\.코로나\s)[ㄱ-힣]+/
-let reTest = /^(\.테스트\s)[ㄱ-힣]{2,10}/
+let reImage = /(\.이미지\s)[ㄱ-힣]+/
+
 
 //함수//
 
@@ -91,23 +91,21 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
     }
 
     if (/.*?\?$/.exec(msg) || /.*?요$/.exec(msg)) {
-        let message = ['어케했노', '어카지', '고민..', 'ㅗㅜㅑ..', '세상좋네', '좋네', '이야', '랜덤같지?', '상관있을듯', '상관없을듯', '나도모름', '생각안남', '나도 모르겠는걸?', '뭐?', '생각해봄', '납득', '가능?', '그러게', '않임', '외 않된데?', '흠터레스팅', '그럴수 있지', '동감', '오 그래요?', '그럴수도있음', '오??', '과연?', '다시한번생각해봐 ', 'ㅇㅇ맞음', '그런것같아요', '저도 궁금해요.', 'ㅇㅇ 그런것같네요', '아마도?', '흠..', '올ㅋ', '아?', '궁금해', '그런거야?', '그럴지도', 'ㅇㅇ', '그렇습니다(최고)', '슬프네요', '즐거우신가요', '뭔데', '아 그렇나', '몰랐네', '나도 그렇게생각해', '동감입니다', '뭐에요?', 'ㅇㅅㅇ', '신기하네', '저도 가르쳐 주세요', '그럴까'];
-        let random = Math.floor(Math.random() * message.length);
-        let random2 = Math.floor(Math.random() * 5);
-        let random3 = Math.floor(Math.random() * emo.length);
+        var message = ['어케했노', '어카지', '고민..', 'ㅗㅜㅑ..', '세상좋네', '좋네', '이야', '랜덤같지?', '상관있을듯', '상관없을듯', '나도모름', '생각안남', '나도 모르겠는걸?', '뭐?', '생각해봄', '납득', '가능?', '그러게', '않임', '외 않된데?', '흠터레스팅', '그럴수 있지', '동감', '오 그래요?', '그럴수도있음', '오??', '과연?', '다시한번생각해봐 ', 'ㅇㅇ맞음', '그런것같아요', '저도 궁금해요.', 'ㅇㅇ 그런것같네요', '아마도?', '흠..', '올ㅋ', '아?', '궁금해', '그런거야?', '그럴지도', 'ㅇㅇ', '그렇습니다(최고)', '슬프네요', '즐거우신가요', '뭔데', '아 그렇나', '몰랐네', '나도 그렇게생각해', '동감입니다', '뭐에요?', 'ㅇㅅㅇ', '신기하네', '저도 가르쳐 주세요', '그럴까'];
+        var random = lottoM.random(0,message.length-1);
+        var random2 = lottoM.random(0,4);
         if (random2 == 1) replier.reply(message[random]);
     }
     if (/트리봇/.exec(msg)) {
-        let message = ['힝', '힘들다', '후..', '(긴장)', '뭐요 휴먼', '...', '?..', 'ㅋ', '네^^', '1절만하자', '관심꺼줄래?', '그만불러', '그러면안댕', '응아니야', '아닙니다', '과연그럴까?', '다시한번 생각해봐요', '왜그렇게 생각하십니까', '왜요', '뭐가요', '네 부르셨나요', '저 욕하신거죠', '너무하네', '살려줘', '쫌 죄송하네', '왜 부름', '당당', '죄송해요 ㅠㅠ', '뭐', '아니야', '그만해', '그만해줘', '공격을멈춰주세요', '갈굼을 멈추어주세요', '?', '무요', '정말?', '고마워', 'Thank you', '그만', '넹', '아니야', '응 아니야'];
-        let random = Math.floor(Math.random() * message.length);
-        let random2 = Math.floor(Math.random() * emo.length);
-        let random3 = Math.floor(Math.random() * 3);
-        if (random3 == 1) replier.reply(message[random]);
+        var message = ['힝', '힘들다', '후..', '(긴장)', '뭐요 휴먼', '...', '?..', 'ㅋ', '네^^', '1절만하자', '관심꺼줄래?', '그만불러', '그러면안댕', '응아니야', '아닙니다', '과연그럴까?', '다시한번 생각해봐요', '왜그렇게 생각하십니까', '왜요', '뭐가요', '네 부르셨나요', '저 욕하신거죠', '너무하네', '살려줘', '쫌 죄송하네', '왜 부름', '당당', '죄송해요 ㅠㅠ', '뭐', '아니야', '그만해', '그만해줘', '공격을멈춰주세요', '갈굼을 멈추어주세요', '?', '무요', '정말?', '고마워', 'Thank you', '그만', '넹', '아니야', '응 아니야'];
+        var random = lottoM.random(0,message.length-1);
+        var random2 = lottoM.random(0,2);
+        if (random2 == 1) replier.reply(message[random]);
     }
 
     //미세먼지
     if (reMise.exec(msg)) {
-        let query = msg.split('.미세')[1];
+        var query = msg.split('.미세')[1];
         replier.reply(weatherM.getWeather(query,Jsoup));
         return;
     }
@@ -135,19 +133,20 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
         replier.reply(randomM.getItem());
         return;
     }
-    //테스트
-    if (msg == ".테") {
-
-        let res,img,src
-        res = Jsoup.connect('https://www.bing.com/images/search?q=%EA%BD%83').get();
-        img = res.select('img.mimg').first();
-        src = img.attr("src");
-        replier.reply(src);
+    //이미지 검색
+    if (reImage.exec(msg)) {
+        var query = msg.split('.이미지')[1];
         try{
-            Kakao.send(room,kalink.imageTemplete('꽃',src));
+            Kakao.send(room,kalink.searchImage(Jsoup,query));
         }catch(e) {
             replier.reply(e);
         }    
+    }
+
+    //테스트
+    if (msg == ".테") {
+
+        
     }
     if (msg == ".테2") {
         replier.reply(room);
