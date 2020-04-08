@@ -1,0 +1,3 @@
+exports.attackTest = (Jsoup, query) => {
+    
+}

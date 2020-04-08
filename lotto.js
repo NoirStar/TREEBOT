@@ -1,10 +1,11 @@
-function random(min, max) {
+
+function random(min, max,val) {
 	let seed = new Date().getTime();
-	let x = Math.sin(seed) * 10000;
+	let x = Math.sin(seed + parseInt(val)) * 10000;
 	return Math.round((x - Math.floor(x)) * (max-min) + min);
 }
 
-function getLotto() {
+function getLotto(seed) {
 
     let num;
     let flag = false;
@@ -13,7 +14,7 @@ function getLotto() {
     while(1){
 
         if(lottoNum.length == 6) break;
-        num = random(1,45);
+        num = random(1,45,seed);
         lottoNum.forEach(element => {
             if(element == num) {
                 flag = true;

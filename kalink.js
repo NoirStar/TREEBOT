@@ -71,7 +71,7 @@ exports.searchImage = (Jsoup,query) => {
     let res,img,src,ran;
     res = Jsoup.connect('https://search.naver.com/search.naver?where=image&sm=tab_jum&query=' + encodeURI(query)).get();
     img = res.select('span._meta').toArray();
-    ran = random(0,img.length - 1)
+    ran = random(0,10);
     src = img[ran].text().split('originalUrl":"')[1].split('",')[0];
     return imageTemplete(query,unescape(src));
 }
