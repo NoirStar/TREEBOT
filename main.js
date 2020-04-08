@@ -27,7 +27,7 @@ let reNamu = /^\.나무 [\w\W]+/i
 let rePapago = /^(\.한영|\.영한|\.한일)\s+[\w\W\s]+/i
 let reMise = /(\.미세\s)[ㄱ-힣]+/
 let reImage = /(\.이미지\s)[ㄱ-힣]+/
-let reLotto = /(\.로또\s)[\w\W]+/
+let reLotto = /(\.로또)[\w\W]*/
 
 
 
@@ -120,11 +120,13 @@ function response(room, msg, sender, isGroupChat, replier, ImageDB, packageName,
 
     //로또
     if (reLotto.exec(msg)) {
-        var val = msg.split('.로또')[1];
-        if(val == "") {
-            replier.reply("사용법 : .로또 [시드]\n시드 : 랜덤한 값을 뽑기위한 특정 값");
+        var val = msg.split('.로또 ')[1];
+        if(msg === ".로또" || msg === ".로또 ") {
+            replier.reply("사용법 : .로또 [시드(숫자)]\n시드 : 랜덤한 값을 뽑기위한 특정 값");
+        }else if(/[\D]+/.exec(val)) {
+            replier.reply("시드는 숫자만 입력하세요")
         }else {
-            replier.reply("**** 행운번호 ****\n" + lottoM.getLotto(val) +"\n"+ lottoM.getLotto(val) +"\n"+ lottoM.getLotto(val) +"\n"+ lottoM.getLotto(val) +"\n"+ lottoM.getLotto(val));
+            replier.reply("**** 행운번호 ****\n" + lottoM.getLotto(val) +"\n\n"+ lottoM.getLotto(val) +"\n\n"+ lottoM.getLotto(val) +"\n\n"+ lottoM.getLotto(val) +"\n\n"+ lottoM.getLotto(val));
             return;
         }
         
